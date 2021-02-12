@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint  --cache --fix . --ext .ts,.tsx --max-warnings 0"
   },
   "dependencies": {
     "react": "16.13.1",
@@ -37,7 +37,9 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^5.0.0",
+    "husky": "4.3.8",
     "jest": "^25.1.0",
+    "lint-staged": "^10.5.4",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.2.1",
     "react-test-renderer": "16.13.1",
@@ -53,5 +55,8 @@
       "json",
       "node"
     ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "yarn lint"
   }
 }
