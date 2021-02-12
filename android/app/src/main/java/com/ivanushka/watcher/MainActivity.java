@@ -1,4 +1,4 @@
-package com.watcher;
+package com.ivanushka.watcher;
 
 import com.facebook.react.ReactActivity;
 

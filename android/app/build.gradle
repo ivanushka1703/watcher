@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.watcher"
+        applicationId "com.ivanushka.watcher"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
