@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
+
+import RNBootSplash from 'react-native-bootsplash';
 
 import {
   Header,
@@ -52,6 +54,10 @@ const styles = StyleSheet.create({
 });
 
 const App: FC = () => {
+  useEffect(() => {
+    void RNBootSplash.hide({ fade: true });
+  }, []);
+
   return (
     <Fragment>
       <StatusBar barStyle='dark-content' />
