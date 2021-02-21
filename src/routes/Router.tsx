@@ -28,7 +28,9 @@ const Router: FC = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => <Icon name='home' color={color} />,
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name={focused ? 'home' : 'home-outline'} size={20} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -36,7 +38,9 @@ const Router: FC = () => {
         component={SettingsRouter}
         options={{
           tabBarLabel: 'Settings',
-          tabBarIcon: ({ color }) => <Icon name='settings' color={color} />,
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name={focused ? 'settings' : 'settings-outline'} size={20} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>
