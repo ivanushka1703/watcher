@@ -34,10 +34,10 @@ const Router: FC = () => {
         }}
       />
       <Tab.Screen
-        name='Settings'
+        name='Providers'
         component={SettingsRouter}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: 'Providers',
           tabBarIcon: ({ focused, color }) => (
             <Icon name={focused ? 'settings' : 'settings-outline'} size={20} color={color} />
           ),

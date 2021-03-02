@@ -4,7 +4,7 @@ export type LoginType = 'bitbucket' | 'github' | 'netlify';
 
 export type RootStackParamList = {
   Home: undefined;
-  Settings: undefined;
+  Providers: undefined;
   Login: { type: LoginType };
 };
 

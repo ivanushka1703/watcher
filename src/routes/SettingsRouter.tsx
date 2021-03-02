@@ -11,7 +11,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const ConnectRouter: FC = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Settings' component={SettingsScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name='Providers'
+        component={SettingsScreen}
+        options={{ headerLargeTitle: true }}
+      />
       <Stack.Screen
         name='Login'
         component={LoginScreen}

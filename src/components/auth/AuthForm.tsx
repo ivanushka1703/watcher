@@ -7,15 +7,9 @@ interface Props {
   type: LoginType;
 }
 
-const primaryColor: { [type: string]: string } = {
-  bitbucket: 'rgb(7, 71, 166)',
-  github: 'black',
-  netlify: 'rgb(7, 71, 166)',
-};
-
 const AuthForm: FC<Props> = ({ type }) => {
   return (
-    <View style={[styles.container, { backgroundColor: primaryColor[type] }]}>
+    <View style={styles.container}>
       <Text>{type}</Text>
     </View>
   );
