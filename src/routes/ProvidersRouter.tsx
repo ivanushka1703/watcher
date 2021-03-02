@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
-import LoginScreen from 'screens/public/LoginScreen';
-import SettingsScreen from 'screens/public/SettingsScreen';
+import ProvidersScreen from 'screens/public/ProvidersScreen';
 
 import { RootStackParamList } from 'routes/types';
 
@@ -13,13 +12,8 @@ const ConnectRouter: FC = () => {
     <Stack.Navigator>
       <Stack.Screen
         name='Providers'
-        component={SettingsScreen}
+        component={ProvidersScreen}
         options={{ headerLargeTitle: true }}
-      />
-      <Stack.Screen
-        name='Login'
-        component={LoginScreen}
-        options={{ stackPresentation: 'formSheet' }}
       />
     </Stack.Navigator>
   );

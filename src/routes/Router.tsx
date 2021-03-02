@@ -1,16 +1,17 @@
 import React, { FC, useCallback, useState } from 'react';
 import { enableScreens } from 'react-native-screens';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import TabsRouter from 'routes/TabsRouter';
 
-import HomeScreen from 'screens/public/HomeScreen';
 import LoadingScreen from 'screens/public/LoadingScreen';
+import LoginScreen from 'screens/public/LoginScreen';
 
-import SettingsRouter from 'routes/SettingsRouter';
+import { RootStackParamList } from './types';
 
 enableScreens();
-const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Router: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,28 +23,14 @@ const Router: FC = () => {
   if (isLoading) return <LoadingScreen onLoadEnd={handleLoadEnd} />;
 
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name='Home'
-        component={HomeScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon name={focused ? 'home' : 'home-outline'} size={20} color={color} />
-          ),
-        }}
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='Home' component={TabsRouter} />
+      <Stack.Screen
+        name='Login'
+        component={LoginScreen}
+        options={{ stackPresentation: 'formSheet' }}
       />
-      <Tab.Screen
-        name='Providers'
-        component={SettingsRouter}
-        options={{
-          tabBarLabel: 'Providers',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon name={focused ? 'settings' : 'settings-outline'} size={20} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    </Stack.Navigator>
   );
 };
 

@@ -6,6 +6,7 @@ const colors = {
   github: '#161614',
   netlify: '#25c7b7',
   black: '#000000',
+  secondaryText: '#666666',
 };
 
 export default colors;

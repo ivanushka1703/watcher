@@ -1,10 +1,10 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
 
-import providers, { logoByType, titleByType } from 'data/providers';
 import ItemSeparatorComponent from 'components/common/ItemSeparatorComponent';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import ProviderItem from './ProviderItem';
+import ProviderItem from 'components/providers/ProviderItem';
+
+import providers, { logoByType, titleByType } from 'data/providers';
 
 const ProviderList: FC = () => {
   const list = useMemo(() => {
@@ -20,21 +20,17 @@ const ProviderList: FC = () => {
   }, []);
 
   return (
-    <SafeAreaView edges={['left', 'right']} style={styles.container}>
-      <FlatList
-        data={list}
-        renderItem={renderItem}
-        style={styles.list}
-        ItemSeparatorComponent={ItemSeparatorComponent}
-      />
-    </SafeAreaView>
+    <FlatList
+      data={list}
+      keyExtractor={item => item.name}
+      renderItem={renderItem}
+      style={styles.list}
+      ItemSeparatorComponent={ItemSeparatorComponent}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   list: {
     flex: 1,
     paddingVertical: 12,
