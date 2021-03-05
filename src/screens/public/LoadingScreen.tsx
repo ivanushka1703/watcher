@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native';
 
-import { LOGO } from 'images';
+import LottieView from 'lottie-react-native';
+
 import colors from 'styles/colors';
 
 interface Props {
@@ -9,56 +10,74 @@ interface Props {
 }
 
 const LoadingScreen: FC<Props> = ({ onLoadEnd }) => {
-  const bounceAnimation = useRef(new Animated.Value(0)).current;
+  const animation = useRef<LottieView>(null);
+  const leaveAnimation = useRef(new Animated.Value(0)).current;
 
   const { height } = useWindowDimensions();
 
-  const bounceOut = useCallback(
+  const leave = useCallback(
     (cb?: Animated.EndCallback) => {
-      Animated.spring(bounceAnimation, {
+      Animated.timing(leaveAnimation, {
         toValue: 1,
-        tension: 2,
-        friction: 120,
+        duration: 1500,
         useNativeDriver: true,
       }).start(cb);
     },
-    [bounceAnimation],
+    [leaveAnimation],
   );
 
   useEffect(() => {
+    if (animation.current) animation.current.play();
+
     setTimeout(() => {
-      bounceOut(onLoadEnd);
-    }, 1000);
-  }, [bounceOut, onLoadEnd]);
+      leave(onLoadEnd);
+    }, 2000);
+  }, [leave, onLoadEnd]);
+
+  const scale = useMemo(() => {
+    return leaveAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 5],
+    });
+  }, [leaveAnimation]);
+
+  const translateX = useMemo(() => {
+    return leaveAnimation.interpolate({
+      inputRange: [0.5, 1],
+      outputRange: [0, 20],
+      extrapolate: 'clamp',
+    });
+  }, [leaveAnimation]);
 
   const translateY = useMemo(() => {
-    return bounceAnimation.interpolate({
+    return leaveAnimation.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -height / 1.5],
+      outputRange: [0, -height / 8],
     });
-  }, [bounceAnimation, height]);
+  }, [height, leaveAnimation]);
 
   return (
-    <View style={styles.container}>
-      <Animated.Image
-        source={LOGO}
-        resizeMode='contain'
-        style={[styles.image, { transform: [{ translateY }] }]}
-      />
-    </View>
+    <Animated.View
+      style={[styles.container, { transform: [{ scale }, { translateY }, { translateX }] }]}
+    >
+      <View style={styles.content}>
+        <LottieView ref={animation} source={require('images/cat-in-box.json')} />
+      </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: colors.background,
   },
-  image: {
-    width: 120,
-    height: 120,
+  content: {
+    flex: 0.4,
+    width: '85%',
+    marginBottom: 40,
   },
 });
 

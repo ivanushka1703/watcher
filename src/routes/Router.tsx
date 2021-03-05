@@ -2,11 +2,10 @@ import React, { FC, useCallback, useState } from 'react';
 import { LayoutAnimation, useColorScheme } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
-import TabsRouter from 'routes/TabsRouter';
-
+import HomeScreen from 'screens/public/HomeScreen';
 import LoginScreen from 'screens/public/LoginScreen';
 import LoadingScreen from 'screens/public/LoadingScreen';
 
@@ -31,7 +30,7 @@ const Router: FC = () => {
   return (
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Home' component={TabsRouter} />
+        <Stack.Screen name='Home' component={HomeScreen} />
         <Stack.Screen
           name='Login'
           component={LoginScreen}
