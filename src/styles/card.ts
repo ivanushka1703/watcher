@@ -1,7 +1,7 @@
 import colors from './colors';
 
 const card = {
-  backgroundColor: colors.tertiaryBackgronud,
+  backgroundColor: colors.tertiaryBackground,
   shadowColor: colors.shadow,
   shadowOffset: {
     width: 0,

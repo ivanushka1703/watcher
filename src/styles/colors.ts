@@ -13,9 +13,9 @@ const colors = {
   black: '#000000',
   primary: PlatformColor('systemBlue'),
   border: PlatformColor('quaternarySystemFill'),
-  shadowColor: PlatformColor('separator'),
+  shadow: PlatformColor('separator'),
   background: PlatformColor('systemGray6'),
-  tertiaryBackgronud: PlatformColor('tertiarySystemBackground'),
+  tertiaryBackground: PlatformColor('tertiarySystemBackground'),
   primaryText: PlatformColor('label'),
   secondaryText: PlatformColor('secondaryLabel'),
 };

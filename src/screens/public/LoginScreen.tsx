@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderBottomWidth: 1,
-    backgroundColor: colors.background,
     borderBottomColor: colors.border,
   },
   headerContent: {
