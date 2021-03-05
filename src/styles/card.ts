@@ -1,10 +1,8 @@
-import { ViewStyle } from 'react-native';
+import colors from './colors';
 
-import colors from 'styles/colors';
-
-const card: ViewStyle = {
-  backgroundColor: colors.white,
-  shadowColor: '#999999',
+const card = {
+  backgroundColor: colors.tertiaryBackgronud,
+  shadowColor: colors.shadow,
   shadowOffset: {
     width: 0,
     height: 1,

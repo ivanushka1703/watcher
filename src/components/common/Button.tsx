@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import {
   ActivityIndicator,
   StyleProp,
@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-
-import colorContrast from 'color-contrast';
 
 import card from 'styles/card';
 import colors from 'styles/colors';
@@ -23,24 +21,15 @@ interface Props {
 }
 
 const Button: FC<Props> = ({ loading, color = 'secondary', children, onPress, style }) => {
-  const buttonStyle = useMemo(() => {
-    return StyleSheet.flatten([styles.button, { backgroundColor: buttonBackground[color] }, style]);
-  }, [color, style]);
-
-  const textColor = useMemo(() => {
-    if (colorContrast(buttonStyle.backgroundColor as string, styles.text.color) > 5) {
-      return styles.text.color;
-    }
-
-    return colors.white;
-  }, [buttonStyle.backgroundColor]);
-
   return (
-    <TouchableOpacity onPress={onPress} style={buttonStyle}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.button, { backgroundColor: buttonBackground[color] }, style]}
+    >
       {loading ? (
-        <ActivityIndicator color={textColor} />
+        <ActivityIndicator color={styles.text.color} />
       ) : (
-        <Text style={[styles.text, { color: textColor }]}>{children}</Text>
+        <Text style={styles.text}>{children}</Text>
       )}
     </TouchableOpacity>
   );
@@ -69,7 +58,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     letterSpacing: 0.15,
-    color: colors.primaryText,
+    color: colors.white,
     fontWeight: '500',
   },
 });

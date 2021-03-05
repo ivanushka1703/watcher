@@ -1,5 +1,4 @@
 import React, { FC, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 
 import RNBootSplash from 'react-native-bootsplash';
 
@@ -12,11 +11,7 @@ const App: FC = () => {
     }, 0);
   }, []);
 
-  return (
-    <NavigationContainer>
-      <Router />
-    </NavigationContainer>
-  );
+  return <Router />;
 };
 
 export default App;

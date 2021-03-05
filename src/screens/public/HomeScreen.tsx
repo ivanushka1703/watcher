@@ -28,12 +28,14 @@ const HomeScreen: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   title: {
     fontSize: 42,
     fontWeight: '700',
     paddingHorizontal: 15,
     marginTop: 20,
+    color: colors.primaryText,
   },
   subtitle: {
     fontSize: 16,

@@ -2,6 +2,7 @@ import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native';
 
 import { LOGO } from 'images';
+import colors from 'styles/colors';
 
 interface Props {
   onLoadEnd: () => void;
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.background,
   },
   image: {
     width: 120,

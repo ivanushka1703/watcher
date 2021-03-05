@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TextInput as RNTextInput } from 'react-native';
 
-import TextInput from 'components/common/TextInput';
 import Button from 'components/common/Button';
+import TextInput from 'components/common/TextInput';
 
 import { titleByType } from 'data/providers';
 
@@ -24,7 +24,11 @@ const AuthForm: FC<Props> = ({ type }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleChangeUsername = useCallback((value: string) => setUsername(value), []);
+  const handleChangeUsername = useCallback((initialValue: string) => {
+    const value = initialValue.replace('@', '');
+
+    setUsername(value ? `@${value}` : value);
+  }, []);
   const handleChangePassword = useCallback((value: string) => setPassword(value), []);
 
   const handleSubmitUsername = useCallback(() => passwordInput.current?.focus(), []);
@@ -75,12 +79,7 @@ const AuthForm: FC<Props> = ({ type }) => {
         onSubmitEditing={handleSubmit}
       />
       <Text style={styles.hint}>All entered data will only be saved on your device.</Text>
-      <Button
-        loading={loading}
-        color='primary'
-        style={{ backgroundColor: colors[type] }}
-        onPress={handleSubmit}
-      >
+      <Button loading={loading} color='primary' onPress={handleSubmit}>
         {`Login into ${providerName}`}
       </Button>
     </View>

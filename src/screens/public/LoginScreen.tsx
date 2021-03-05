@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+import IconButton from 'components/common/IconButton';
 import AuthForm from 'components/auth/AuthForm';
 
 import { logoByType, titleByType } from 'data/providers';
@@ -10,7 +11,6 @@ import { logoByType, titleByType } from 'data/providers';
 import colors from 'styles/colors';
 
 import { LoginParams } from 'routes/types';
-import IconButton from 'components/common/IconButton';
 
 const LoginScreen: FC = () => {
   const { goBack } = useNavigation();
@@ -24,8 +24,8 @@ const LoginScreen: FC = () => {
       <View style={styles.header}>
         <View />
         <View style={styles.headerContent}>
-          <Logo style={styles.logo} width={24} height={24} />
-          <Text style={[styles.headerText, { color: colors[type] }]}>{title}</Text>
+          <Logo style={styles.logo} width={24} height={24} color={colors.primaryText} />
+          <Text style={styles.headerText}>{title}</Text>
         </View>
         <IconButton icon='close' onPress={goBack} />
       </View>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingHorizontal: 12,
+    paddingVertical: 24,
   },
   header: {
     flexDirection: 'row',
@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray200,
+    backgroundColor: colors.background,
+    borderBottomColor: colors.border,
   },
   headerContent: {
     flexDirection: 'row',
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.primaryText,
   },
 });
 

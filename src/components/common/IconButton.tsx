@@ -27,7 +27,13 @@ const IconButton: FC<Props> = ({
       style={[styles.button, buttonStyles]}
       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
     >
-      <Icon name={icon} width={iconWidth} height={iconHeight} style={[styles.icon, iconStyles]} />
+      <Icon
+        name={icon}
+        width={iconWidth}
+        height={iconHeight}
+        color={colors.primaryText}
+        style={[styles.icon, iconStyles]}
+      />
     </TouchableOpacity>
   );
 };

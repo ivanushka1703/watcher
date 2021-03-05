@@ -25,8 +25,10 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: '700',
     marginBottom: 8,
+    color: colors.secondaryText,
   },
   input: {
+    color: colors.primaryText,
     height: 42,
     borderRadius: 6,
     paddingHorizontal: 12,
