@@ -31,14 +31,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   title: {
-    fontSize: 42,
+    fontSize: 36,
     fontWeight: '700',
     paddingHorizontal: 15,
     marginTop: 20,
     color: colors.primaryText,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     paddingHorizontal: 15,
     marginBottom: 30,
     color: colors.secondaryText,

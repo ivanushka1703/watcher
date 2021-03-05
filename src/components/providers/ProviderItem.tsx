@@ -25,7 +25,9 @@ const ProviderItem: FC<Props> = ({ name, icon: Logo, title }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       <Logo width={36} height={36} style={styles.logo} color={colors.primaryText} />
-      <Text style={styles.title}>{title}</Text>
+      <Text numberOfLines={1} style={styles.title}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };
