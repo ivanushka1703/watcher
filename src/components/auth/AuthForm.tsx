@@ -1,10 +1,15 @@
 import React, { FC, useCallback, useRef, useState } from 'react';
-import { StyleSheet, View, Text, TextInput as RNTextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput as RNTextInput, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Button from 'components/common/Button';
 import TextInput from 'components/common/TextInput';
 
-import { titleByType } from 'data/providers';
+import { providerTitle, storageKeys } from 'data/providers';
+
+import login from 'helpers/login';
 
 import colors from 'styles/colors';
 
@@ -15,7 +20,7 @@ interface Props {
 }
 
 const AuthForm: FC<Props> = ({ type }) => {
-  const providerName = titleByType[type];
+  const { goBack } = useNavigation();
 
   const passwordInput = useRef<RNTextInput>(null);
 
@@ -33,14 +38,44 @@ const AuthForm: FC<Props> = ({ type }) => {
 
   const handleSubmitUsername = useCallback(() => passwordInput.current?.focus(), []);
 
-  const handleSubmit = useCallback(() => {
+  const handleProviderConfig = useCallback(
+    async ({ name, token }: { name?: string; token?: string } = {}) => {
+      if (name && token) {
+        await AsyncStorage.multiSet([
+          [storageKeys[type].username, name],
+          [storageKeys[type].token, token],
+        ]);
+      } else {
+        await AsyncStorage.multiRemove(Object.values(storageKeys[type]));
+      }
+    },
+    [type],
+  );
+
+  const handleSubmit = useCallback(async () => {
+    if (!username || !password) {
+      Alert.alert('All fields are required!');
+
+      return;
+    }
+
     setLoading(true);
-    // eslint-disable-next-line no-console
-    console.log(type, username, password);
-    setTimeout(() => {
+
+    try {
+      await handleProviderConfig({ name: username, token: password });
+      const res = await login(type);
+
+      if (res) {
+        Alert.alert('USER', JSON.stringify(res));
+        goBack();
+      }
+    } catch (err) {
+      Alert.alert('Error', err.message);
+      void handleProviderConfig();
+    } finally {
       setLoading(false);
-    }, 1000);
-  }, [password, type, username]);
+    }
+  }, [goBack, handleProviderConfig, password, type, username]);
 
   return (
     <View style={styles.container}>
@@ -80,7 +115,7 @@ const AuthForm: FC<Props> = ({ type }) => {
       />
       <Text style={styles.hint}>All entered data will only be saved on your device.</Text>
       <Button loading={loading} color='primary' onPress={handleSubmit}>
-        {`Login into ${providerName}`}
+        {`Login into ${providerTitle[type]}`}
       </Button>
     </View>
   );

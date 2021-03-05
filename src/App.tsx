@@ -1,8 +1,11 @@
 import React, { FC, useEffect } from 'react';
+import { ApolloProvider } from '@apollo/client';
 
 import RNBootSplash from 'react-native-bootsplash';
 
 import Router from 'routes/Router';
+
+import client from 'startup/apollo';
 
 const App: FC = () => {
   useEffect(() => {
@@ -11,7 +14,11 @@ const App: FC = () => {
     }, 0);
   }, []);
 
-  return <Router />;
+  return (
+    <ApolloProvider client={client}>
+      <Router />
+    </ApolloProvider>
+  );
 };
 
 export default App;

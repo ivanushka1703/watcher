@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import IconButton from 'components/common/IconButton';
 import AuthForm from 'components/auth/AuthForm';
 
-import { logoByType, titleByType } from 'data/providers';
+import { providerLogo, providerTitle } from 'data/providers';
 
 import colors from 'styles/colors';
 
@@ -16,8 +16,8 @@ const LoginScreen: FC = () => {
   const { goBack } = useNavigation();
   const { type } = useRoute<LoginParams>().params || {};
 
-  const Logo = useMemo(() => logoByType[type], [type]);
-  const title = useMemo(() => titleByType[type], [type]);
+  const Logo = useMemo(() => providerLogo[type], [type]);
+  const title = useMemo(() => providerTitle[type], [type]);
 
   return (
     <View style={styles.container}>

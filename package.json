@@ -11,12 +11,17 @@
     "clean": "watchman watch-del-all && rm -rf ~/.gradle/caches && rm -rf $TMPDIR/metro-* && rm -rf $TMPDIR/haste-map-*"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.13.4",
+    "@apollo/client": "^3.3.11",
+    "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
+    "apollo-link-rest": "^0.8.0-beta.0",
     "color-contrast": "^1.0.0",
+    "graphql": "^15.5.0",
+    "graphql-anywhere": "^4.2.7",
+    "qs": "^6.9.6",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-bootsplash": "^3.1.5",
