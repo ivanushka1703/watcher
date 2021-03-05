@@ -6,7 +6,11 @@ import ProviderItem from 'components/providers/ProviderItem';
 
 import providers, { logoByType, titleByType } from 'data/providers';
 
-const ProviderList: FC = () => {
+interface Props {
+  ListHeaderComponent?: React.ComponentType<any> | React.ReactElement | null;
+}
+
+const ProviderList: FC<Props> = ({ ListHeaderComponent }) => {
   const list = useMemo(() => {
     return providers.map(provider => ({
       name: provider,
@@ -26,6 +30,7 @@ const ProviderList: FC = () => {
       renderItem={renderItem}
       style={styles.list}
       ItemSeparatorComponent={ItemSeparatorComponent}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 };
