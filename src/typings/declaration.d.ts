@@ -6,3 +6,9 @@ declare module '*.svg' {
 
   export default content;
 }
+
+declare module 'color-contrast' {
+  const colorContrast: (color: string, color: string) => number;
+
+  export default colorContrast;
+}

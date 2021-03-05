@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -29,7 +29,15 @@ const LoginScreen: FC = () => {
         </View>
         <IconButton icon='close' onPress={goBack} />
       </View>
-      <AuthForm type={type} />
+      <KeyboardAvoidingView style={styles.container}>
+        <ScrollView
+          style={styles.content}
+          keyboardDismissMode='on-drag'
+          keyboardShouldPersistTaps='handled'
+        >
+          <AuthForm type={type} />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -37,6 +45,11 @@ const LoginScreen: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
   },
   header: {
     flexDirection: 'row',
