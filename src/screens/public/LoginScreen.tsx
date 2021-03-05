@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -21,6 +21,7 @@ const LoginScreen: FC = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle='light-content' />
       <View style={styles.header}>
         <View />
         <View style={styles.headerContent}>
