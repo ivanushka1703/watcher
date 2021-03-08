@@ -17,10 +17,7 @@ export type ProviderTitle = {
 };
 
 export type StorageKeys = {
-  [key in ProviderName]: {
-    username: string;
-    token: string;
-  };
+  [key in ProviderName]: string;
 };
 
 export const endpoints = {
@@ -30,9 +27,9 @@ export const endpoints = {
 };
 
 export const storageKeys: StorageKeys = {
-  bitbucket: { username: 'BITBUCKET_USERNAME', token: 'BITBUCKET_TOKEN' },
-  github: { username: 'GITHUB_USERNAME', token: 'GITHUB_TOKEN' },
-  netlify: { username: 'NETLIFY_USERNAME', token: 'NETLIFY_TOKEN' },
+  bitbucket: 'BITBUCKET_TOKEN',
+  github: 'GITHUB_TOKEN',
+  netlify: 'NETLIFY_TOKEN',
 };
 
 export const providerLogo: ProviderLogo = {

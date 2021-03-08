@@ -10,10 +10,10 @@ const setAuthorizationLink = setContext(async ({ operationName }) => {
   const type = operationName?.match(/^.+_/)?.[0]?.replace('_', '') as ProviderName | undefined;
 
   if (type) {
-    const token = await AsyncStorage.getItem(storageKeys[type].token);
+    const token = await AsyncStorage.getItem(storageKeys[type]);
 
     if (token) {
-      return { headers: { Authorization: `${type === 'github' ? 'token' : 'Bearer'} ${token}` } };
+      return { headers: { Authorization: `${token === 'github' ? 'token' : 'Bearer'} ${token}` } };
     }
   }
 
