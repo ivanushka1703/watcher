@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useState } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import React, { FC, useCallback, useRef, useState } from 'react';
+import { StyleSheet, View, Text, TextInput as RNTextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,12 +20,16 @@ interface Props {
 }
 
 const AuthForm: FC<Props> = ({ type }) => {
+  const passwordInput = useRef<RNTextInput>(null);
+
   const { goBack } = useNavigation();
 
   const [loading, setLoading] = useState(false);
+
+  const [username, setUsername] = useState('');
   const [token, setToken] = useState('');
 
-  const handleChangeToken = useCallback((value: string) => setToken(value), []);
+  const handleSubmitUsername = useCallback(() => passwordInput.current?.focus(), []);
 
   const handleProviderConfig = useCallback(
     async (providerToken?: string) => {
@@ -40,7 +44,7 @@ const AuthForm: FC<Props> = ({ type }) => {
 
   const handleSubmit = useCallback(async () => {
     if (!token) {
-      Alert.alert('');
+      Alert.alert('Personal Token is required');
 
       return;
     }
@@ -49,7 +53,7 @@ const AuthForm: FC<Props> = ({ type }) => {
 
     try {
       await handleProviderConfig(token);
-      const res = await login(type);
+      const res = await login(type, username);
 
       if (res) {
         Alert.alert('USER', JSON.stringify(res));
@@ -57,16 +61,36 @@ const AuthForm: FC<Props> = ({ type }) => {
       }
     } catch (err) {
       setLoading(false);
-      Alert.alert('Error', err.message);
       void handleProviderConfig();
+      Alert.alert('Error', err.message);
     }
-  }, [goBack, handleProviderConfig, token, type]);
+  }, [goBack, handleProviderConfig, token, type, username]);
 
   return (
     <View style={styles.container}>
+      {type === 'bitbucket' && (
+        <TextInput
+          autoFocus
+          label='Username'
+          placeholder='username'
+          autoCapitalize='none'
+          autoCompleteType='username'
+          blurOnSubmit={false}
+          clearButtonMode='while-editing'
+          enablesReturnKeyAutomatically
+          importantForAutofill='auto'
+          keyboardType='email-address'
+          maxLength={30}
+          returnKeyType='next'
+          textContentType='username'
+          value={username}
+          onChangeText={setUsername}
+          onSubmitEditing={handleSubmitUsername}
+        />
+      )}
       <TextInput
         value={token}
-        autoFocus
+        autoFocus={type !== 'bitbucket'}
         label='Personal Token'
         placeholder='YOUR_PERSONAL_ACCESS_TOKEN'
         autoCapitalize='none'
@@ -77,7 +101,7 @@ const AuthForm: FC<Props> = ({ type }) => {
         returnKeyType='done'
         textContentType='password'
         secureTextEntry
-        onChangeText={handleChangeToken}
+        onChangeText={setToken}
         onSubmitEditing={handleSubmit}
       />
       <Text style={styles.hint}>All entered data will only be saved on your device.</Text>

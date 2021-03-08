@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const NETLIFY_USER_QUERY = gql`
-  query netlifyUser {
+  query netlify_user {
     user @rest(type: "Netlify_User", path: "user", endpoint: "netlify") {
       id
       fullName

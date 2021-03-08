@@ -21,7 +21,7 @@ export type StorageKeys = {
 };
 
 export const endpoints = {
-  bitbucket: 'https://bitbucket.org/site/',
+  bitbucket: 'https://api.bitbucket.org/2.0/',
   github: 'https://api.github.com/',
   netlify: 'https://api.netlify.com/api/v1/',
 };
