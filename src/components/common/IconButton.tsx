@@ -9,8 +9,10 @@ interface Props {
   onPress: () => void;
   iconWidth?: number;
   iconHeight?: number;
+  color?: string;
   iconStyles?: StyleProp<ViewStyle>;
   buttonStyles?: StyleProp<ViewStyle>;
+  noBackground?: boolean;
 }
 
 const IconButton: FC<Props> = ({
@@ -20,18 +22,20 @@ const IconButton: FC<Props> = ({
   iconHeight = 14,
   buttonStyles,
   iconStyles,
+  color,
+  noBackground = false,
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, buttonStyles]}
+      style={[styles.button, noBackground && styles.noBackgroundButton, buttonStyles]}
       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
     >
       <Icon
         name={icon}
-        width={iconWidth}
-        height={iconHeight}
-        color={colors.primaryText}
+        width={noBackground ? 26 : iconWidth}
+        height={noBackground ? 26 : iconHeight}
+        color={color || colors.primaryText}
         style={[styles.icon, iconStyles]}
       />
     </TouchableOpacity>
@@ -42,6 +46,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: colors.gray100,
     padding: 6,
+  },
+  noBackgroundButton: {
+    padding: 0,
+    backgroundColor: 'transparent',
   },
   icon: {
     opacity: 0.8,

@@ -11,6 +11,8 @@ const colors = {
   github: '#161614',
   netlify: '#25c7b7',
   black: '#000000',
+  green: PlatformColor('systemGreen'),
+  red: PlatformColor('systemRed'),
   primary: PlatformColor('systemBlue'),
   border: PlatformColor('quaternarySystemFill'),
   shadow: PlatformColor('separator'),

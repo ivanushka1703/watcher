@@ -5,6 +5,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import IconButton from 'components/common/IconButton';
 import AuthForm from 'components/auth/AuthForm';
+import Profile from 'components/user/Profile';
+
+import useProviders from 'hooks/useProviders';
 
 import { providerLogo, providerTitle } from 'data/providers';
 
@@ -14,10 +17,17 @@ import { LoginParams } from 'routes/types';
 
 const LoginScreen: FC = () => {
   const { goBack } = useNavigation();
-  const { type } = useRoute<LoginParams>().params || {};
+  const { provider } = useRoute<LoginParams>().params || {};
 
-  const Logo = useMemo(() => providerLogo[type], [type]);
-  const title = useMemo(() => providerTitle[type], [type]);
+  const Logo = useMemo(() => providerLogo[provider], [provider]);
+  const title = useMemo(() => providerTitle[provider], [provider]);
+
+  const { providers } = useProviders();
+
+  const user = useMemo(() => providers.find(({ name }) => name === provider)?.user, [
+    provider,
+    providers,
+  ]);
 
   return (
     <View style={styles.container}>
@@ -36,7 +46,7 @@ const LoginScreen: FC = () => {
           keyboardDismissMode='on-drag'
           keyboardShouldPersistTaps='handled'
         >
-          <AuthForm type={type} />
+          {user ? <Profile user={user} provider={provider} /> : <AuthForm provider={provider} />}
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
@@ -46,7 +56,6 @@ const LoginScreen: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   content: {
     flex: 1,

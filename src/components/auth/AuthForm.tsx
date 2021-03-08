@@ -7,19 +7,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from 'components/common/Button';
 import TextInput from 'components/common/TextInput';
 
-import { providerTitle, storageKeys } from 'data/providers';
+import { ProviderName, providerTitle, storageKeys } from 'data/providers';
 
 import login from 'helpers/login';
 
 import colors from 'styles/colors';
 
-import { LoginType } from 'routes/types';
-
 interface Props {
-  type: LoginType;
+  provider: ProviderName;
 }
 
-const AuthForm: FC<Props> = ({ type }) => {
+const AuthForm: FC<Props> = ({ provider }) => {
   const passwordInput = useRef<RNTextInput>(null);
 
   const { goBack } = useNavigation();
@@ -32,14 +30,17 @@ const AuthForm: FC<Props> = ({ type }) => {
   const handleSubmitUsername = useCallback(() => passwordInput.current?.focus(), []);
 
   const handleProviderConfig = useCallback(
-    async (providerToken?: string) => {
+    async (providerToken?: string, user?: string) => {
       if (providerToken) {
-        await AsyncStorage.setItem(storageKeys[type], providerToken);
+        if (user) await AsyncStorage.setItem(`${storageKeys[provider]}_USERNAME`, user);
+        await AsyncStorage.setItem(storageKeys[provider], providerToken);
       } else {
-        await AsyncStorage.removeItem(storageKeys[type]);
+        if (provider === 'bitbucket')
+          await AsyncStorage.removeItem(`${storageKeys[provider]}_USERNAME`);
+        await AsyncStorage.removeItem(storageKeys[provider]);
       }
     },
-    [type],
+    [provider],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -52,23 +53,20 @@ const AuthForm: FC<Props> = ({ type }) => {
     setLoading(true);
 
     try {
-      await handleProviderConfig(token);
-      const res = await login(type, username);
+      await handleProviderConfig(token, username);
+      const res = await login(provider);
 
-      if (res) {
-        Alert.alert('USER', JSON.stringify(res));
-        goBack();
-      }
+      if (res) goBack();
     } catch (err) {
       setLoading(false);
       void handleProviderConfig();
       Alert.alert('Error', err.message);
     }
-  }, [goBack, handleProviderConfig, token, type, username]);
+  }, [goBack, handleProviderConfig, token, provider, username]);
 
   return (
     <View style={styles.container}>
-      {type === 'bitbucket' && (
+      {provider === 'bitbucket' && (
         <TextInput
           autoFocus
           label='Username'
@@ -90,7 +88,7 @@ const AuthForm: FC<Props> = ({ type }) => {
       )}
       <TextInput
         value={token}
-        autoFocus={type !== 'bitbucket'}
+        autoFocus={provider !== 'bitbucket'}
         label='Personal Token'
         placeholder='YOUR_PERSONAL_ACCESS_TOKEN'
         autoCapitalize='none'
@@ -106,7 +104,7 @@ const AuthForm: FC<Props> = ({ type }) => {
       />
       <Text style={styles.hint}>All entered data will only be saved on your device.</Text>
       <Button loading={loading} color='primary' onPress={handleSubmit}>
-        {`Login into ${providerTitle[type]}`}
+        {`Login into ${providerTitle[provider]}`}
       </Button>
     </View>
   );

@@ -5,10 +5,10 @@ const times = {
   },
   day: {
     from: 11,
-    to: 17,
+    to: 18,
   },
   evening: {
-    from: 17,
+    from: 18,
     to: 23,
   },
   night: {

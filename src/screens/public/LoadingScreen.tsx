@@ -1,15 +1,11 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
-import { StyleSheet, View, Animated, useWindowDimensions } from 'react-native';
+import { StyleSheet, View, Animated, useWindowDimensions, ActivityIndicator } from 'react-native';
 
 import LottieView from 'lottie-react-native';
 
 import colors from 'styles/colors';
 
-interface Props {
-  onLoadEnd: () => void;
-}
-
-const LoadingScreen: FC<Props> = ({ onLoadEnd }) => {
+const LoadingScreen: FC = () => {
   const animation = useRef<LottieView>(null);
   const leaveAnimation = useRef(new Animated.Value(0)).current;
 
@@ -29,10 +25,8 @@ const LoadingScreen: FC<Props> = ({ onLoadEnd }) => {
   useEffect(() => {
     if (animation.current) animation.current.play();
 
-    setTimeout(() => {
-      leave(onLoadEnd);
-    }, 2000);
-  }, [leave, onLoadEnd]);
+    setTimeout(() => leave(), 2000);
+  }, [leave]);
 
   const scale = useMemo(() => {
     return leaveAnimation.interpolate({
@@ -55,6 +49,15 @@ const LoadingScreen: FC<Props> = ({ onLoadEnd }) => {
       outputRange: [0, -height / 8],
     });
   }, [height, leaveAnimation]);
+
+  if (__DEV__) {
+    return (
+      // eslint-disable-next-line react-native/no-inline-styles
+      <View style={[styles.container, { justifyContent: 'center' }]}>
+        <ActivityIndicator size='large' color={colors.primaryText} />
+      </View>
+    );
+  }
 
   return (
     <Animated.View

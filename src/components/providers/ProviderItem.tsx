@@ -1,34 +1,58 @@
 import React, { FC, useCallback } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+
+import Haptic from 'react-native-haptic-feedback';
 
 import { SvgProps } from 'react-native-svg';
 import { ProviderName } from 'data/providers';
 
 import card from 'styles/card';
 import colors from 'styles/colors';
+import Icon from 'components/common/Icon';
 
 interface Props {
   name: ProviderName;
   icon: FC<SvgProps>;
   title: string;
+  username?: string;
 }
 
-const ProviderItem: FC<Props> = ({ name, icon: Logo, title }) => {
+const ProviderItem: FC<Props> = ({ name, icon: Logo, title, username }) => {
   const { navigate } = useNavigation();
 
   const handlePress = useCallback(() => {
-    navigate('Login', { type: name });
-  }, [name, navigate]);
+    if (username) navigate('Deployments', { provider: name });
+    else navigate('Login', { provider: name });
+  }, [name, navigate, username]);
+
+  const handleLongPress = useCallback(() => {
+    if (!username) return;
+
+    Haptic.trigger('longPress');
+    navigate('Login', { provider: name });
+  }, [name, navigate, username]);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handlePress}>
+    <Pressable
+      style={({ pressed }) => [styles.container, { opacity: pressed ? 0.7 : 1 }]}
+      onPress={handlePress}
+      onLongPress={handleLongPress}
+    >
       <Logo width={36} height={36} style={styles.logo} color={colors.primaryText} />
-      <Text numberOfLines={1} style={styles.title}>
-        {title}
-      </Text>
-    </TouchableOpacity>
+      <View style={styles.content}>
+        <Text numberOfLines={1} style={styles.title}>
+          {title}
+        </Text>
+        {!!username && <Text numberOfLines={1} style={styles.username}>{`@${username}`}</Text>}
+      </View>
+      {!!username && (
+        <View>
+          <Icon name='angle-right' width={14} height={14} color={colors.secondaryText} />
+        </View>
+      )}
+    </Pressable>
   );
 };
 
@@ -42,6 +66,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
+  content: {
+    flex: 1,
+  },
   logo: {
     marginRight: 10,
   },
@@ -49,6 +76,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     color: colors.primaryText,
+  },
+  username: {
+    marginTop: 2,
+    fontSize: 16,
+    color: colors.primary,
   },
 });
 

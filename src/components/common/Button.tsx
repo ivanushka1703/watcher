@@ -24,7 +24,11 @@ const Button: FC<Props> = ({ loading, color = 'secondary', children, onPress, st
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, { backgroundColor: buttonBackground[color] }, style]}
+      style={[
+        styles.button,
+        { backgroundColor: buttonBackground[color], shadowColor: buttonBackground[color] },
+        style,
+      ]}
     >
       {loading ? (
         <ActivityIndicator color={styles.text.color} />
@@ -41,8 +45,8 @@ const buttonBackground: { [key in ButtonColor]: string } = {
   primary: colors.primary,
   secondary: colors.gray100,
   warning: 'yellow',
-  danger: 'red',
-  success: 'green',
+  danger: colors.red,
+  success: colors.green,
 };
 
 const styles = StyleSheet.create({

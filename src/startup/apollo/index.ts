@@ -9,16 +9,22 @@ import { setContext } from '@apollo/client/link/context';
 
 import { ProviderName, storageKeys, endpoints } from 'data/providers';
 
-const setAuthorizationLink = setContext(async ({ operationName, variables }) => {
-  const type = operationName?.match(/^.+_/)?.[0]?.replace('_', '') as ProviderName | undefined;
+const getProviderName = (operationName?: string): ProviderName => {
+  const providerName = operationName?.match(/^.+_/)?.[0]?.replace('_', '');
 
-  if (type) {
-    const token = await AsyncStorage.getItem(storageKeys[type]);
+  return (providerName || 'netlify') as ProviderName;
+};
+
+const setAuthorizationLink = setContext(async ({ operationName }) => {
+  const provider = getProviderName(operationName);
+
+  if (provider) {
+    const token = await AsyncStorage.getItem(storageKeys[provider]);
 
     if (token) {
-      switch (type) {
+      switch (provider) {
         case 'bitbucket': {
-          const username = variables?.username as string;
+          const username = (await AsyncStorage.getItem(`${storageKeys[provider]}_USERNAME`)) || '';
 
           return {
             headers: { Authorization: `Basic ${base64.encode(`${username}:${token}`)}` },
