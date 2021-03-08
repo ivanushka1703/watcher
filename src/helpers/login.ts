@@ -1,7 +1,7 @@
 import client from 'startup/apollo';
 
-import GITHUB_USER_QUERY from 'graphql/github/queries/user';
-import NETLIFY_USER_QUERY from 'graphql/netlify/queries/user';
+import GITHUB_USER_QUERY from 'graphql/queries/user/githubUser';
+import NETLIFY_USER_QUERY from 'graphql/queries/user/netlifyUser';
 
 import { DocumentNode } from 'graphql';
 import { ProviderName } from 'data/providers';
