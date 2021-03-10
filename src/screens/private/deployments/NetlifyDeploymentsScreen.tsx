@@ -1,29 +1,29 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 
-import { StyleSheet, Text, View } from 'react-native';
+import Loading from 'components/common/Loading';
+import DeploymentList from 'components/deployments/DeploymentList';
+
+import formatSites from 'helpers/netlify/formatSites';
 
 import NETLIFY_SITES_QUERY from 'graphql/queries/netlify/sites';
 
 const NetlifyDeploymentsScreen: FC = () => {
-  const { data, loading } = useQuery(NETLIFY_SITES_QUERY, { fetchPolicy: 'cache-and-network' });
+  const { data, loading, refetch } = useQuery(NETLIFY_SITES_QUERY, {
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      filter: 'all',
+      page: 1,
+      per_page: 30,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
-  // eslint-disable-next-line no-console
-  console.log(data, loading);
+  const sites = useMemo(() => formatSites(data?.netlify_sites), [data?.netlify_sites]);
 
-  return (
-    <View style={styles.container}>
-      <Text />
-    </View>
-  );
+  if (!data && loading) return <Loading screen />;
+
+  return <DeploymentList refetch={refetch as any} sites={sites} />;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default NetlifyDeploymentsScreen;

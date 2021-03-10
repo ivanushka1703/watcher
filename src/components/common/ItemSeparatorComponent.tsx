@@ -1,8 +1,12 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-const ItemSeparatorComponent: FC = () => {
-  return <View style={styles.separator} />;
+interface Props {
+  offset?: number;
+}
+
+const ItemSeparatorComponent: FC<Props> = ({ offset = 5 }) => {
+  return <View style={[styles.separator, { marginVertical: offset }]} />;
 };
 
 const styles = StyleSheet.create({

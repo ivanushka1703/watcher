@@ -1,4 +1,4 @@
-import { PlatformColor as RNPlatformColor } from 'react-native';
+import { DynamicColorIOS, PlatformColor as RNPlatformColor } from 'react-native';
 
 const PlatformColor = (...colors: string[]): string => {
   return (RNPlatformColor(...colors) as any) as string;
@@ -16,7 +16,10 @@ const colors = {
   primary: PlatformColor('systemBlue'),
   border: PlatformColor('quaternarySystemFill'),
   shadow: PlatformColor('separator'),
-  background: PlatformColor('systemGray6'),
+  background: (DynamicColorIOS({
+    dark: 'rgb(0,0,0)',
+    light: 'rgb(242, 242, 242)',
+  }) as unknown) as string,
   tertiaryBackground: PlatformColor('tertiarySystemBackground'),
   primaryText: PlatformColor('label'),
   secondaryText: PlatformColor('secondaryLabel'),
