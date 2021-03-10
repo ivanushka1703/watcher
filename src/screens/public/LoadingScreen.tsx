@@ -1,86 +1,69 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
-import { StyleSheet, View, Animated, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, PlatformColor, Animated, Easing } from 'react-native';
 
-import LottieView from 'lottie-react-native';
-
-import colors from 'styles/colors';
+import Logo from 'images/logo-no-title.svg';
+import Title from 'images/logo-title.svg';
 
 const LoadingScreen: FC = () => {
-  const animation = useRef<LottieView>(null);
-  const leaveAnimation = useRef(new Animated.Value(0)).current;
+  const animation = useRef(new Animated.Value(0));
 
-  const { height } = useWindowDimensions();
-
-  const leave = useCallback(
-    (cb?: Animated.EndCallback) => {
-      Animated.timing(leaveAnimation, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: true,
-      }).start(cb);
-    },
-    [leaveAnimation],
-  );
+  const runAnimation = useCallback(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animation.current, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+          easing: Easing.linear,
+        }),
+        Animated.timing(animation.current, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+          easing: Easing.linear,
+        }),
+      ]),
+    ).start();
+  }, []);
 
   useEffect(() => {
-    if (animation.current) animation.current.play();
+    runAnimation();
+  }, [runAnimation]);
 
-    setTimeout(() => leave(), 2000);
-  }, [leave]);
-
-  const scale = useMemo(() => {
-    return leaveAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 5],
-    });
-  }, [leaveAnimation]);
-
-  const translateX = useMemo(() => {
-    return leaveAnimation.interpolate({
-      inputRange: [0.5, 1],
-      outputRange: [0, 20],
-      extrapolate: 'clamp',
-    });
-  }, [leaveAnimation]);
-
-  const translateY = useMemo(() => {
-    return leaveAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, -height / 8],
-    });
-  }, [height, leaveAnimation]);
-
-  if (__DEV__) {
-    return (
-      // eslint-disable-next-line react-native/no-inline-styles
-      <View style={[styles.container, { justifyContent: 'center' }]}>
-        <ActivityIndicator size='large' color={colors.primaryText} />
-      </View>
-    );
-  }
+  const rotate = useMemo(
+    () =>
+      animation.current.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg'],
+      }),
+    [],
+  );
 
   return (
-    <Animated.View
-      style={[styles.container, { transform: [{ scale }, { translateY }, { translateX }] }]}
-    >
-      <View style={styles.content}>
-        <LottieView ref={animation} source={require('images/cat-in-box.json')} />
+    <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Animated.View style={{ transform: [{ rotate }] }}>
+          <Logo width={50} height={50} />
+        </Animated.View>
+        <Title width={120} height={30} style={styles.title} />
       </View>
-    </Animated.View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background,
+    backgroundColor: PlatformColor('systemBackground'),
   },
-  content: {
-    flex: 0.4,
-    width: '85%',
-    marginBottom: 40,
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    marginTop: 8,
   },
 });
 
