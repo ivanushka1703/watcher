@@ -1,15 +1,13 @@
-import React, { FC, useEffect, useMemo } from 'react';
-import { useNavigation, useRoute, CommonActions } from '@react-navigation/native';
+import React, { FC, useMemo } from 'react';
+import { useRoute } from '@react-navigation/native';
 
-import { ScrollView, StyleSheet, Text } from 'react-native';
-
-import colors from 'styles/colors';
-
-import { DeploymentsParams } from 'routes/types';
 import useProviders from 'hooks/useProviders';
 
+import { DeploymentsParams } from 'routes/types';
+
+import NetlifyDeployments from 'screens/private/deployments/NetlifyDeploymentsScreen';
+
 const DeploymentsScreen: FC = () => {
-  const { dispatch } = useNavigation();
   const { provider } = useRoute<DeploymentsParams>().params || {};
 
   const { providers } = useProviders();
@@ -19,27 +17,19 @@ const DeploymentsScreen: FC = () => {
     providers,
   ]);
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(CommonActions.navigate({ name: 'Home' }));
+  const Screen = useMemo(() => {
+    switch (provider) {
+      case 'netlify':
+        return NetlifyDeployments;
+
+      default:
+        return NetlifyDeployments;
     }
-  }, [dispatch, user]);
+  }, [provider]);
 
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={{ color: colors.primaryText }}>{provider}</Text>
-    </ScrollView>
-  );
+  if (!user) return null;
+
+  return <Screen />;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default DeploymentsScreen;
