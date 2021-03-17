@@ -41,7 +41,10 @@ const setAuthorizationLink = setContext(async ({ operationName }) => {
   return undefined;
 });
 
-const restLink = new RestLink({ uri: endpoints.netlify, endpoints });
+const restLink = new RestLink({
+  uri: endpoints.netlify,
+  endpoints,
+});
 
 const link = setAuthorizationLink.concat(restLink);
 

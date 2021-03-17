@@ -9,6 +9,7 @@ import BITBUCKET_USER_QUERY from 'graphql/queries/user/bitbucketUser';
 import GITHUB_USER_QUERY from 'graphql/queries/user/githubUser';
 import NETLIFY_USER_QUERY from 'graphql/queries/user/netlifyUser';
 
+import BITBUCKET_WORKSPACES_QUERY from 'graphql/queries/bitbucket/workspaces';
 import GITHUB_REPOSITORIES_QUERY from 'graphql/queries/github/repositories';
 import NETLIFY_SITES_QUERY from 'graphql/queries/netlify/sites';
 
@@ -66,15 +67,11 @@ export const providerTitle: ProviderTitle = {
 
 export const repositoriesQueries = {
   bitbucket: {
-    query: GITHUB_REPOSITORIES_QUERY,
+    query: BITBUCKET_WORKSPACES_QUERY,
     variables: {
-      type: 'all',
-      sort: 'updated',
-      direction: 'desc',
-      per_page: 50,
-      page: 0,
+      sort: 'name',
     },
-    name: 'github_repositories',
+    name: 'bitbucket_workspaces',
   },
   github: {
     query: GITHUB_REPOSITORIES_QUERY,

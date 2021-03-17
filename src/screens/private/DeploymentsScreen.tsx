@@ -6,11 +6,11 @@ import Loading from 'components/common/Loading';
 import DeploymentList from 'components/deployments/DeploymentList';
 
 import formatSites from 'helpers/formatSites';
+import { repositoriesQueries } from 'data/providers';
 
 import useProviders from 'hooks/useProviders';
 
 import { DeploymentsParams } from 'routes/types';
-import { repositoriesQueries } from 'data/providers';
 
 const DeploymentsScreen: FC = () => {
   const { provider } = useRoute<DeploymentsParams>().params || {};

@@ -35,6 +35,7 @@ const GITHUB_REPOSITORIES_QUERY = gql`
         @rest(
           path: "repos/{exportVariables.owner}/{exportVariables.repo}/actions/workflows"
           type: ["Github_Action"]
+          endpoint: "github"
         ) {
         id
         name
