@@ -6,6 +6,7 @@ import useProviders from 'hooks/useProviders';
 import { DeploymentsParams } from 'routes/types';
 
 import NetlifyDeployments from 'screens/private/deployments/NetlifyDeploymentsScreen';
+import GithubDeploymentsScreen from './deployments/GithubDeploymentsScreen';
 
 const DeploymentsScreen: FC = () => {
   const { provider } = useRoute<DeploymentsParams>().params || {};
@@ -21,6 +22,8 @@ const DeploymentsScreen: FC = () => {
     switch (provider) {
       case 'netlify':
         return NetlifyDeployments;
+      case 'github':
+        return GithubDeploymentsScreen;
 
       default:
         return NetlifyDeployments;

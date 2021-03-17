@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import Loading from 'components/common/Loading';
 import DeploymentList from 'components/deployments/DeploymentList';
 
-import formatSites from 'helpers/netlify/formatSites';
+import formatSites from 'helpers/formatSites';
 
 import NETLIFY_SITES_QUERY from 'graphql/queries/netlify/sites';
 

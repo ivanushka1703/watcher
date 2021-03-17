@@ -5,7 +5,7 @@ const formatSites = (sites?: any[]): Array<Site> => {
     id: site.id,
     name: site.name,
     url: site.url,
-    account: site.account_name,
+    account: site.account_name || site.owner?.login,
     status: site.published_deploy?.state,
     branch: site.published_deploy?.branch,
     updatedAt: site.published_deploy?.published_at || site.updated_at,
