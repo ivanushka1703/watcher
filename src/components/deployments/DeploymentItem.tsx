@@ -14,7 +14,7 @@ interface Props {
   item: Site;
 }
 
-const DeploymentItem: FC<Props> = ({ item: { name, branch, updatedAt } }) => {
+const DeploymentItem: FC<Props> = ({ item: { name, branch, updatedAt, status } }) => {
   const publishDate = useMemo(() => {
     if (!updatedAt) return null;
 
@@ -39,6 +39,11 @@ const DeploymentItem: FC<Props> = ({ item: { name, branch, updatedAt } }) => {
             <Icon name='cloud-upload-outline' width={14} height={14} />
             {` ${publishDate}`}
           </Text>
+        )}
+        {!!status && (
+          <View style={styles.statusContainer}>
+            <Text style={styles.status}>{status}</Text>
+          </View>
         )}
       </View>
     </TouchableOpacity>
@@ -71,6 +76,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 4,
     color: colors.secondaryText,
+  },
+  statusContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  status: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: colors.secondaryText,
+    textTransform: 'uppercase',
   },
 });
 

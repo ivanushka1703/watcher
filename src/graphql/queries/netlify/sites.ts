@@ -16,6 +16,7 @@ const NETLIFY_SITES_QUERY = gql`
       created_at
       published_deploy @type(name: "Published_Deploy") {
         id
+        state
         branch
         published_at
       }
