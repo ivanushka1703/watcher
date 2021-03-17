@@ -1,12 +1,16 @@
 import React, { FC, useMemo } from 'react';
+import { useQuery } from '@apollo/client';
 import { useRoute } from '@react-navigation/native';
+
+import Loading from 'components/common/Loading';
+import DeploymentList from 'components/deployments/DeploymentList';
+
+import formatSites from 'helpers/formatSites';
 
 import useProviders from 'hooks/useProviders';
 
 import { DeploymentsParams } from 'routes/types';
-
-import NetlifyDeployments from 'screens/private/deployments/NetlifyDeploymentsScreen';
-import GithubDeploymentsScreen from './deployments/GithubDeploymentsScreen';
+import { repositoriesQueries } from 'data/providers';
 
 const DeploymentsScreen: FC = () => {
   const { provider } = useRoute<DeploymentsParams>().params || {};
@@ -18,21 +22,22 @@ const DeploymentsScreen: FC = () => {
     providers,
   ]);
 
-  const Screen = useMemo(() => {
-    switch (provider) {
-      case 'netlify':
-        return NetlifyDeployments;
-      case 'github':
-        return GithubDeploymentsScreen;
+  const { query, variables, name } = useMemo(() => repositoriesQueries[provider], [provider]);
 
-      default:
-        return NetlifyDeployments;
-    }
-  }, [provider]);
+  const { data, loading, refetch } = useQuery(query, {
+    variables,
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+    skip: !user,
+  });
+
+  const sites = useMemo(() => formatSites(data?.[name]), [data, name]);
 
   if (!user) return null;
 
-  return <Screen />;
+  if (!data && loading) return <Loading screen />;
+
+  return <DeploymentList refetch={refetch as any} sites={sites} />;
 };
 
 export default DeploymentsScreen;
