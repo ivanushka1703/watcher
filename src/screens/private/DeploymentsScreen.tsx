@@ -31,7 +31,7 @@ const DeploymentsScreen: FC = () => {
     skip: !user,
   });
 
-  const sites = useMemo(() => formatSites(data?.[name]), [data, name]);
+  const sites = useMemo(() => formatSites(data?.[name], provider), [data, name, provider]);
 
   if (!user) return null;
 

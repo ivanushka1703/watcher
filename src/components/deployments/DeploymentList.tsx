@@ -36,7 +36,8 @@ const DeploymentList: FC<Props> = ({ refetch, sites }) => {
           data: orderBy(data, 'updatedAt', 'desc'),
         };
       }),
-      'title',
+      ['updatedAt', 'title'],
+      ['desc', 'asc'],
     );
   }, [sites]);
 

@@ -25,16 +25,29 @@ const BITBUCKET_WORKSPACES_QUERY = gql`
             mainbranch @type(name: "Bitbucket_Repository_Branch") {
               name
             }
+            updated_on
+            created_on
             pipelines
               @rest(
                 path: "repositories/{exportVariables.workspace}/{exportVariables.repo_slug}/pipelines/"
-                type: ["Bitbucket_Repository_Pipeline"]
+                type: ["Bitbucket_Pipeline"]
                 endpoint: "bitbucket"
               ) {
               values {
                 uuid
+                created_on
                 build_seconds_used
                 completed_on
+                target @type(name: "Bitbucket_Pipeline_Target") {
+                  ref_type
+                  ref_name
+                }
+                state @type(name: "Bitbucket_Pipeline_State") {
+                  name
+                  result @type(name: "Bitbucket_Pipeline_State_Result") {
+                    name
+                  }
+                }
               }
             }
           }

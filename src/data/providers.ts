@@ -71,7 +71,7 @@ export const repositoriesQueries = {
     variables: {
       sort: 'name',
     },
-    name: 'bitbucket_workspaces',
+    name: 'bitbucket_repositories',
   },
   github: {
     query: GITHUB_REPOSITORIES_QUERY,
